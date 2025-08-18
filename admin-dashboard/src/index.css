@@ -8,3 +8,40 @@ body {
   font-family: 'Inter', sans-serif;
   @apply bg-gray-50;
 }
+/* Add this to your index.css */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-content {
+  display: flex;
+  flex: 1;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+}
+
+.navbar-placeholder, 
+.sidebar-placeholder {
+  height: 60px;
+  background: #f0f0f0;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .app-content {
+    flex-direction: column;
+  }
+}
