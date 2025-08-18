@@ -1,6 +1,6 @@
-import Cards from '../components/Dashboard/Cards';
-import SalesChart from '../components/Dashboard/SalesChart';
-import QuickLinks from '../components/Dashboard/QuickLinks';
+import Cards from '../../components/Dashboard/Cards';
+import SalesChart from '../../components/Dashboard/SalesChart';
+import QuickLinks from '../../components/Dashboard/QuickLinks';
 
 const Dashboard = ({ user }) => {
   return (
