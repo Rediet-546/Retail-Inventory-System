@@ -11,7 +11,7 @@ const Landing = () => {
         alignItems: 'center',
         backgroundImage: `url(${assets.backgroundImage})`,
         backgroundSize: 'contain',        // change size
-        backgroundPosition: '500px center', // align right
+        backgroundPosition: '550px center', // align right
         backgroundRepeat: 'no-repeat',     // avoid tiling
         backgroundAttachment: 'fixed',
         color: 'white',
