@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import LogsTable from '../components/Reports/LogsTable';
 
 const Reports = () => {
@@ -23,9 +24,27 @@ const Reports = () => {
     }
   ];
 
+  const csvContent = useMemo(() => {
+    const header = ['Date','User','Action','Details'];
+    const rows = logs.map(l => [new Date(l.timestamp).toISOString(), l.user, l.action, l.details]);
+    const csv = [header, ...rows]
+      .map(r => r.map(field => `"${String(field).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+    return 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  }, [logs]);
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Reports</h1>
+      <div className="mb-4 flex gap-3">
+        <a
+          href={csvContent}
+          download={`logs_${new Date().toISOString().slice(0,10)}.csv`}
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          Export Logs (CSV)
+        </a>
+      </div>
       <LogsTable logs={logs} />
     </div>
   );

@@ -1,18 +1,20 @@
 import SettingsForm from '../components/Settings/SettingsForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Settings = () => {
-  const [settings, setSettings] = useState({
-    companyName: 'My Business',
-    timezone: 'UTC',
-    dateFormat: 'MM/DD/YYYY',
-    notificationsEnabled: true,
+  const [settings, setSettings] = useState(() => {
+    const saved = localStorage.getItem('settings');
+    return saved ? JSON.parse(saved) : {
+      companyName: 'My Business',
+      timezone: 'UTC',
+      dateFormat: 'MM/DD/YYYY',
+      notificationsEnabled: true,
+    };
   });
 
   const handleSave = (newSettings) => {
     setSettings(newSettings);
-    // In a real app, you would save to API here
-    console.log('Settings saved:', newSettings);
+    localStorage.setItem('settings', JSON.stringify(newSettings));
   };
 
   return (

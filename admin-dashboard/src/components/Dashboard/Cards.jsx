@@ -1,43 +1,75 @@
+import { Grid, Card, CardContent, Typography, Box } from '@mui/material';
+import { TrendingUp, TrendingDown, People, ShoppingCart, Inventory, AttachMoney } from '@mui/icons-material';
+
 const Cards = () => {
   const stats = [
-    { name: 'Total Sales', value: '$12,345', change: '+12%', changeType: 'positive' },
-    { name: 'Active Users', value: '245', change: '+5%', changeType: 'positive' },
-    { name: 'Pending Orders', value: '12', change: '-2%', changeType: 'negative' },
+    { 
+      name: 'Total Sales', 
+      value: '$12,345', 
+      change: '+12%', 
+      changeType: 'positive',
+      icon: <AttachMoney sx={{ fontSize: 40, color: 'success.main' }} />
+    },
+    { 
+      name: 'Total Users', 
+      value: '245', 
+      change: '+5%', 
+      changeType: 'positive',
+      icon: <People sx={{ fontSize: 40, color: 'primary.main' }} />
+    },
+    { 
+      name: 'Total Products', 
+      value: '1,234', 
+      change: '+8%', 
+      changeType: 'positive',
+      icon: <Inventory sx={{ fontSize: 40, color: 'info.main' }} />
+    },
+    { 
+      name: 'Active Cashiers', 
+      value: '12', 
+      change: '-2%', 
+      changeType: 'negative',
+      icon: <ShoppingCart sx={{ fontSize: 40, color: 'warning.main' }} />
+    },
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 mb-6">
+    <Grid container spacing={3} sx={{ mb: 3 }}>
       {stats.map((stat) => (
-        <div key={stat.name} className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="px-4 py-5 sm:p-6">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
-                {/* Icon would go here */}
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dt className="text-sm font-medium text-gray-500 truncate">
-                  {stat.name}
-                </dt>
-                <dd className="flex items-baseline">
-                  <div className="text-2xl font-semibold text-gray-900">
+        <Grid item xs={12} sm={6} md={3} key={stat.name}>
+          <Card sx={{ height: '100%' }}>
+            <CardContent>
+              <Box display="flex" alignItems="center" justifyContent="space-between">
+                <Box>
+                  <Typography color="textSecondary" gutterBottom variant="body2">
+                    {stat.name}
+                  </Typography>
+                  <Typography variant="h4" component="div">
                     {stat.value}
-                  </div>
-                  <div
-                    className={`ml-2 flex items-baseline text-sm font-semibold ${
-                      stat.changeType === 'positive'
-                        ? 'text-green-600'
-                        : 'text-red-600'
-                    }`}
-                  >
-                    {stat.change}
-                  </div>
-                </dd>
-              </div>
-            </div>
-          </div>
-        </div>
+                  </Typography>
+                  <Box display="flex" alignItems="center" mt={1}>
+                    {stat.changeType === 'positive' ? (
+                      <TrendingUp sx={{ color: 'success.main', fontSize: 16, mr: 0.5 }} />
+                    ) : (
+                      <TrendingDown sx={{ color: 'error.main', fontSize: 16, mr: 0.5 }} />
+                    )}
+                    <Typography 
+                      variant="body2" 
+                      color={stat.changeType === 'positive' ? 'success.main' : 'error.main'}
+                    >
+                      {stat.change}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box>
+                  {stat.icon}
+                </Box>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
       ))}
-    </div>
+    </Grid>
   );
 };
 

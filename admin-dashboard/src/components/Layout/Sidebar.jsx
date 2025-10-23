@@ -1,56 +1,76 @@
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Box, Typography } from '@mui/material';
+import { 
+  Dashboard, 
+  People, 
+  Person, 
+  Assessment, 
+  Settings,
+  ShoppingCart
+} from '@mui/icons-material';
 import { Link, useLocation } from 'react-router-dom';
 
-const Sidebar = ({ user }) => {
+const Sidebar = ({ currentUser }) => {
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
 
   const adminLinks = [
-    { name: 'Dashboard', path: '/dashboard', icon: 'dashboard' },
-    { name: 'Managers', path: '/managers', icon: 'people' },
-    { name: 'Cashiers', path: '/cashiers', icon: 'person' },
-    { name: 'Reports', path: '/reports', icon: 'assessment' },
-    { name: 'Settings', path: '/settings', icon: 'settings' },
+    { name: 'Dashboard', path: '/admin/dashboard', icon: <Dashboard /> },
+    { name: 'User Management', path: '/admin/users', icon: <People /> },
+    { name: 'Reports & Logs', path: '/admin/reports', icon: <Assessment /> },
+    { name: 'Settings', path: '/admin/settings', icon: <Settings /> },
   ];
 
   const managerLinks = [
-    { name: 'Dashboard', path: '/dashboard', icon: 'dashboard' },
-    { name: 'Cashiers', path: '/cashiers', icon: 'person' },
-    { name: 'Reports', path: '/reports', icon: 'assessment' },
+    { name: 'Dashboard', path: '/manager/dashboard', icon: <Dashboard /> },
+    { name: 'Cashiers', path: '/manager/cashiers', icon: <Person /> },
+    { name: 'Reports', path: '/manager/reports', icon: <Assessment /> },
   ];
 
   const cashierLinks = [
-    { name: 'Dashboard', path: '/dashboard', icon: 'dashboard' },
+    { name: 'Dashboard', path: '/cashier/dashboard', icon: <Dashboard /> },
+    { name: 'Sales', path: '/cashier/sales', icon: <ShoppingCart /> },
   ];
 
-  const links = user?.role === 'admin' 
+  const links = currentUser?.role === 'admin' 
     ? adminLinks 
-    : user?.role === 'manager' 
+    : currentUser?.role === 'manager' 
       ? managerLinks 
       : cashierLinks;
 
   return (
-    <div className="hidden md:flex md:flex-shrink-0">
-      <div className="flex flex-col w-64 bg-gray-800">
-        <div className="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-          <nav className="flex-1 px-2 space-y-1">
-            {links.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
-                  isActive(link.path)
-                    ? 'bg-gray-900 text-white'
-                    : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                }`}
-              >
-                <span className="mr-3">{link.icon}</span>
-                {link.name}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </div>
-    </div>
+    <Box sx={{ width: 240, flexShrink: 0 }}>
+      <Box sx={{ p: 2 }}>
+        <Typography variant="h6" color="primary">
+          {currentUser?.role?.charAt(0).toUpperCase() + currentUser?.role?.slice(1)} Panel
+        </Typography>
+      </Box>
+      <Divider />
+      <List>
+        {links.map((link) => (
+          <ListItem key={link.path} disablePadding>
+            <ListItemButton
+              component={Link}
+              to={link.path}
+              selected={isActive(link.path)}
+              sx={{
+                '&.Mui-selected': {
+                  backgroundColor: 'primary.main',
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: 'primary.dark',
+                  },
+                },
+              }}
+            >
+              <ListItemIcon sx={{ color: isActive(link.path) ? 'white' : 'inherit' }}>
+                {link.icon}
+              </ListItemIcon>
+              <ListItemText primary={link.name} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
   );
 };
 

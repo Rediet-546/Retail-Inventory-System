@@ -1,33 +1,79 @@
+import { Paper, Typography, Grid, Card, CardContent, CardActionArea, Box } from '@mui/material';
+import { 
+  PersonAdd, 
+  Assessment, 
+  Settings, 
+  People,
+  ShoppingCart
+} from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+
 const QuickLinks = ({ user }) => {
+  const navigate = useNavigate();
+  
   const links = [
-    { name: 'Add Manager', path: '/managers/new', icon: '👨‍💼', visible: user?.role === 'admin' },
-    { name: 'Add Cashier', path: '/cashiers/new', icon: '👩‍💼', visible: user?.role !== 'cashier' },
-    { name: 'View Reports', path: '/reports', icon: '📊', visible: true },
-    { name: 'Settings', path: '/settings', icon: '⚙️', visible: user?.role === 'admin' },
+    { 
+      name: 'User Management', 
+      path: '/admin/users', 
+      icon: <People sx={{ fontSize: 32, color: 'primary.main' }} />, 
+      visible: user?.role === 'admin' 
+    },
+    { 
+      name: 'Add Cashier', 
+      path: '/manager/cashiers', 
+      icon: <PersonAdd sx={{ fontSize: 32, color: 'success.main' }} />, 
+      visible: user?.role === 'manager' 
+    },
+    { 
+      name: 'View Reports', 
+      path: user?.role === 'admin' ? '/admin/reports' : '/manager/reports', 
+      icon: <Assessment sx={{ fontSize: 32, color: 'info.main' }} />, 
+      visible: user?.role !== 'cashier' 
+    },
+    { 
+      name: 'Settings', 
+      path: '/admin/settings', 
+      icon: <Settings sx={{ fontSize: 32, color: 'warning.main' }} />, 
+      visible: user?.role === 'admin' 
+    },
+    { 
+      name: 'New Sale', 
+      path: '/cashier/sales', 
+      icon: <ShoppingCart sx={{ fontSize: 32, color: 'primary.main' }} />, 
+      visible: user?.role === 'cashier' 
+    },
   ];
 
+  const handleClick = (path) => {
+    navigate(path);
+  };
+
   return (
-    <div className="bg-white p-4 rounded-lg shadow">
-      <h3 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
-      <div className="grid grid-cols-2 gap-4">
+    <Paper sx={{ p: 3, height: '100%' }}>
+      <Typography variant="h6" gutterBottom>
+        Quick Actions
+      </Typography>
+      <Grid container spacing={2}>
         {links
           .filter(link => link.visible)
           .map((link) => (
-            <a
-              key={link.name}
-              href={link.path}
-              className="group p-3 border border-gray-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition-colors"
-            >
-              <div className="flex items-center">
-                <span className="text-2xl mr-3">{link.icon}</span>
-                <span className="text-sm font-medium text-gray-700 group-hover:text-indigo-700">
-                  {link.name}
-                </span>
-              </div>
-            </a>
+            <Grid item xs={6} key={link.name}>
+              <Card>
+                <CardActionArea onClick={() => handleClick(link.path)}>
+                  <CardContent sx={{ textAlign: 'center', py: 2 }}>
+                    <Box sx={{ mb: 1 }}>
+                      {link.icon}
+                    </Box>
+                    <Typography variant="body2" color="text.secondary">
+                      {link.name}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
           ))}
-      </div>
-    </div>
+      </Grid>
+    </Paper>
   );
 };
 

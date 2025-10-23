@@ -1,22 +1,27 @@
+import { Box, Typography, Grid } from '@mui/material';
 import Cards from '../../components/Dashboard/Cards';
 import SalesChart from '../../components/Dashboard/SalesChart';
 import QuickLinks from '../../components/Dashboard/QuickLinks';
 
-const Dashboard = ({ user }) => {
+const AdminDashboard = ({ user }) => {
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Admin Dashboard
+      </Typography>
+      
       <Cards />
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
+      
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={8}>
           <SalesChart />
-        </div>
-        <div>
+        </Grid>
+        <Grid item xs={12} md={4}>
           <QuickLinks user={user} />
-        </div>
-      </div>
-    </div>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 
-export default Dashboard;
+export default AdminDashboard;

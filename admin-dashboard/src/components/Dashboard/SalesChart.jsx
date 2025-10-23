@@ -1,3 +1,4 @@
+import { Paper, Typography, Box } from '@mui/material';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
@@ -10,8 +11,8 @@ const SalesChart = () => {
       {
         label: 'Sales',
         data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: 'rgba(79, 70, 229, 0.5)',
-        borderColor: 'rgba(79, 70, 229, 1)',
+        backgroundColor: 'rgba(25, 118, 210, 0.5)',
+        borderColor: 'rgba(25, 118, 210, 1)',
         borderWidth: 1,
       },
     ],
@@ -19,6 +20,7 @@ const SalesChart = () => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top',
@@ -28,12 +30,22 @@ const SalesChart = () => {
         text: 'Monthly Sales Report',
       },
     },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow">
-      <Bar data={data} options={options} />
-    </div>
+    <Paper sx={{ p: 3, height: 400 }}>
+      <Typography variant="h6" gutterBottom>
+        Sales Trends
+      </Typography>
+      <Box sx={{ height: 320 }}>
+        <Bar data={data} options={options} />
+      </Box>
+    </Paper>
   );
 };
 
